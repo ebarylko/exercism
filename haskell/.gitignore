@@ -1,0 +1,5 @@
+**.exercism/
+**.stack-work/
+**HELP.md
+***.cabal
+**dist-newstyle/
