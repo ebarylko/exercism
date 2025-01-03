@@ -1,3 +1,1 @@
 resolver: lts-20.18
-extra-deps:
-  - predicate-0.0.4
