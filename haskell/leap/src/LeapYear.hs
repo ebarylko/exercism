@@ -1,4 +1,5 @@
 module LeapYear (isLeapYear) where
+import Data.Predicate
 
 somePred :: [a -> Bool] -> a -> Bool
 somePred [] _ = False
@@ -13,7 +14,7 @@ divisibleBy400 :: Integer -> Bool
 divisibleBy400 x = ((== 0) . (reverseMod 400)) x
 
 divisibleBy4andNot100 :: Integer -> Bool
-divisibleBy4andNot100 x = everyPred [((/= 0) . (reverseMod 100)) ((== 0) . (reverseMod 4))] x
+divisibleBy4andNot100 =  [((/= 0) . (reverseMod 100)), ((== 0) . (reverseMod 4))] 
 
 isLeapYear :: Integer -> Bool
 -- isLeapYear year = somePred [(divisibleBy4andNot100) (divisibleBy400)] year
