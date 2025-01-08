@@ -3,8 +3,10 @@ type nucleotide = A | C | G | T
 
 let same_length coll1 coll2 = List.length coll1 = List.length coll2
 
-let curr_distance acc (fst, snd) = (fst <> snd) |> Bool.to_int |> (+) acc
-
+(* let curr_distance acc (fst, snd) = (fst <> snd) |> Bool.to_int |> (+) acc *)
+let tuple_elems_do_not_match (x, y) = x <> y
+let (&) = Fun.compose
+let curr_distance acc = ((+) acc) & Bool.to_int & tuple_elems_do_not_match
 let just x = Ok x
 
 let calc_distance list = List.fold_left curr_distance 0 list |> just
@@ -13,7 +15,7 @@ let determine_error_msg coll1 coll2  = match (coll1, coll2) with
   | [], _ -> "left strand must not be empty"
   | _, [] -> "right strand must not be empty"
   | _, _ ->  "left and right strands must be of equal length"
-
+    
 let to_error msg = Error msg
 
 let error_msg coll1 coll2 = (determine_error_msg coll1 coll2) |> to_error 
