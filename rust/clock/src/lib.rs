@@ -1,6 +1,5 @@
 use std::fmt;
 use std::fmt::Formatter;
-use std::iter::successors;
 
 #[derive(Debug, PartialEq)]
 pub struct Clock {
@@ -15,26 +14,15 @@ impl fmt::Display for Clock {
     
 }
 
-fn to_non_negative_num_of_minutes(mins: i32) -> i32 {
-    successors(Some(mins), |el| Some(el + 1440)).skip_while(|h| h.is_negative()).next().unwrap()
-}
-
-
-// Takes a number of minutes M and returns the number of hours
-// and minutes represented by M
-fn num_of_hours_and_mins(mins: i32) -> (i32, i32) {
-    let num_of_mins = to_non_negative_num_of_minutes(mins);
-    (num_of_mins / 60, num_of_mins % 60)
-}
-
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let (num_of_hours, remaining_mins) = num_of_hours_and_mins(hours * 60 + minutes);
-        Clock { hours: num_of_hours % 24, minutes: remaining_mins}
+        Clock {
+            hours: (hours + minutes.div_euclid(60)).rem_euclid(24),
+            minutes: minutes.rem_euclid(60)
+        }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        let (hours, mins) = num_of_hours_and_mins(minutes);
-        Clock::new(hours + self.hours, mins + self.minutes)
+        Clock::new(self.hours, self.minutes + minutes)
     }
 }
