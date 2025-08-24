@@ -35,85 +35,71 @@ fn sixty_minutes_is_next_hour() {
 }
 
 #[test]
-#[ignore]
 fn minutes_roll_over() {
     assert_eq!(Clock::new(0, 160).to_string(), "02:40");
 }
 
 #[test]
-#[ignore]
 fn minutes_roll_over_continuously() {
     assert_eq!(Clock::new(0, 1723).to_string(), "04:43");
 }
 
 #[test]
-#[ignore]
 fn hour_and_minutes_roll_over() {
     assert_eq!(Clock::new(25, 160).to_string(), "03:40");
 }
 
 #[test]
-#[ignore]
 fn hour_and_minutes_roll_over_continuously() {
     assert_eq!(Clock::new(201, 3001).to_string(), "11:01");
 }
 
 #[test]
-#[ignore]
 fn hour_and_minutes_roll_over_to_exactly_midnight() {
     assert_eq!(Clock::new(72, 8640).to_string(), "00:00");
 }
 
 #[test]
-#[ignore]
 fn negative_hour() {
     assert_eq!(Clock::new(-1, 15).to_string(), "23:15");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_rolls_over() {
     assert_eq!(Clock::new(-25, 0).to_string(), "23:00");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_rolls_over_continuously() {
     assert_eq!(Clock::new(-91, 0).to_string(), "05:00");
 }
 
 #[test]
-#[ignore]
 fn negative_minutes() {
     assert_eq!(Clock::new(1, -40).to_string(), "00:20");
 }
 
 #[test]
-#[ignore]
 fn negative_minutes_roll_over() {
     assert_eq!(Clock::new(1, -160).to_string(), "22:20");
 }
 
 #[test]
-#[ignore]
 fn negative_minutes_roll_over_continuously() {
     assert_eq!(Clock::new(1, -4820).to_string(), "16:40");
 }
 
 #[test]
-#[ignore]
 fn negative_sixty_minutes_is_previous_hour() {
     assert_eq!(Clock::new(2, -60).to_string(), "01:00");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_and_minutes_both_roll_over() {
     assert_eq!(Clock::new(-25, -160).to_string(), "20:20");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_and_minutes_both_roll_over_continuously() {
     assert_eq!(Clock::new(-121, -5810).to_string(), "22:10");
 }
@@ -123,7 +109,6 @@ fn negative_hour_and_minutes_both_roll_over_continuously() {
 //
 
 #[test]
-#[ignore]
 fn add_minutes() {
     let clock = Clock::new(10, 0).add_minutes(3);
     assert_eq!(clock.to_string(), "10:03");
