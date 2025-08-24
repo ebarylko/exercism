@@ -29,9 +29,7 @@ fn num_of_hours_and_mins(mins: i32) -> (i32, i32) {
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let num_of_mins = to_non_negative_num_of_minutes(hours * 60 + minutes);
-        let num_of_hours = num_of_mins / 60;
-        let remaining_mins = num_of_mins % 60;
+        let (num_of_hours, remaining_mins) = num_of_hours_and_mins(hours * 60 + minutes);
         Clock { hours: num_of_hours % 24, minutes: remaining_mins}
     }
 
