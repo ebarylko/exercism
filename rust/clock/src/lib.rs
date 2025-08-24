@@ -20,6 +20,12 @@ fn to_non_negative_num_of_minutes(mins: i32) -> i32 {
 }
 
 
+// Takes a number of minutes M and returns the number of hours
+// and minutes represented by M
+fn num_of_hours_and_mins(mins: i32) -> (i32, i32) {
+    let num_of_mins = to_non_negative_num_of_minutes(mins);
+    (num_of_mins / 60, num_of_mins % 60)
+}
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
@@ -30,6 +36,7 @@ impl Clock {
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        todo!("Add {minutes} minutes to existing Clock time");
+        let (hours, mins) = num_of_hours_and_mins(minutes);
+        Clock::new(hours + self.hours, mins + self.minutes)
     }
 }
