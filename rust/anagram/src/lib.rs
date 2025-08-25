@@ -1,5 +1,4 @@
-use std::collections::HashSet;
-use std::collections::HashMap;
+use std::collections::{HashSet, HashMap};
 
 type Freq = HashMap<char, u32>;
 
@@ -10,17 +9,18 @@ fn update_count(c: char, letter_to_count: Freq) -> Freq {
 }
 
 pub fn frequencies(text: &str) -> Freq {
-    text.to_lowercase().chars().fold(HashMap::new(),
-                                     |freq, c| update_count(c, freq))
+    text
+        .chars()
+        .fold(HashMap::new(), |freq, c| update_count(c, freq))
 }
 
 fn is_anagram(target: &str, candidate: &str) -> bool {
-    frequencies(target) == frequencies(candidate) && target.to_lowercase() != candidate.to_lowercase()
+    frequencies(target) == frequencies(candidate) && target != candidate
 }
 
 pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&'a str]) -> HashSet<&'a str> {
     possible_anagrams.iter()
-        .filter(|src| is_anagram(word, src))
+        .filter(|src| is_anagram(&word.to_lowercase(), &src.to_lowercase()))
         .copied()
         .collect()
 
