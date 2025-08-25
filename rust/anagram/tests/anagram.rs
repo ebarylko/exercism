@@ -19,7 +19,6 @@ fn no_matches() {
 }
 
 #[test]
-#[ignore]
 fn detects_two_anagrams() {
     let word = "solemn";
     let inputs = &["lemons", "cherry", "melons"];
@@ -29,7 +28,6 @@ fn detects_two_anagrams() {
 }
 
 #[test]
-#[ignore]
 fn does_not_detect_anagram_subsets() {
     let word = "good";
     let inputs = &["dog", "goody"];
@@ -39,7 +37,6 @@ fn does_not_detect_anagram_subsets() {
 }
 
 #[test]
-#[ignore]
 fn detects_anagram() {
     let word = "listen";
     let inputs = &["enlists", "google", "inlets", "banana"];
@@ -49,7 +46,6 @@ fn detects_anagram() {
 }
 
 #[test]
-#[ignore]
 fn detects_three_anagrams() {
     let word = "allergy";
     let inputs = &[
@@ -66,7 +62,6 @@ fn detects_three_anagrams() {
 }
 
 #[test]
-#[ignore]
 fn detects_multiple_anagrams_with_different_case() {
     let word = "nose";
     let inputs = &["Eons", "ONES"];
@@ -76,7 +71,6 @@ fn detects_multiple_anagrams_with_different_case() {
 }
 
 #[test]
-#[ignore]
 fn does_not_detect_non_anagrams_with_identical_checksum() {
     let word = "mass";
     let inputs = &["last"];
@@ -86,7 +80,6 @@ fn does_not_detect_non_anagrams_with_identical_checksum() {
 }
 
 #[test]
-#[ignore]
 fn detects_anagrams_case_insensitively() {
     let word = "Orchestra";
     let inputs = &["cashregister", "Carthorse", "radishes"];
@@ -96,7 +89,6 @@ fn detects_anagrams_case_insensitively() {
 }
 
 #[test]
-#[ignore]
 fn detects_anagrams_using_case_insensitive_subject() {
     let word = "Orchestra";
     let inputs = &["cashregister", "carthorse", "radishes"];
@@ -106,7 +98,6 @@ fn detects_anagrams_using_case_insensitive_subject() {
 }
 
 #[test]
-#[ignore]
 fn detects_anagrams_using_case_insensitive_possible_matches() {
     let word = "orchestra";
     let inputs = &["cashregister", "Carthorse", "radishes"];
@@ -116,7 +107,6 @@ fn detects_anagrams_using_case_insensitive_possible_matches() {
 }
 
 #[test]
-#[ignore]
 fn does_not_detect_an_anagram_if_the_original_word_is_repeated() {
     let word = "go";
     let inputs = &["goGoGO"];
@@ -126,7 +116,6 @@ fn does_not_detect_an_anagram_if_the_original_word_is_repeated() {
 }
 
 #[test]
-#[ignore]
 fn anagrams_must_use_all_letters_exactly_once() {
     let word = "tapper";
     let inputs = &["patter"];
@@ -136,7 +125,6 @@ fn anagrams_must_use_all_letters_exactly_once() {
 }
 
 #[test]
-#[ignore]
 fn words_are_not_anagrams_of_themselves() {
     let word = "BANANA";
     let inputs = &["BANANA"];
@@ -146,7 +134,6 @@ fn words_are_not_anagrams_of_themselves() {
 }
 
 #[test]
-#[ignore]
 fn words_are_not_anagrams_of_themselves_even_if_letter_case_is_partially_different() {
     let word = "BANANA";
     let inputs = &["Banana"];
@@ -156,7 +143,6 @@ fn words_are_not_anagrams_of_themselves_even_if_letter_case_is_partially_differe
 }
 
 #[test]
-#[ignore]
 fn words_are_not_anagrams_of_themselves_even_if_letter_case_is_completely_different() {
     let word = "BANANA";
     let inputs = &["banana"];
@@ -166,7 +152,6 @@ fn words_are_not_anagrams_of_themselves_even_if_letter_case_is_completely_differ
 }
 
 #[test]
-#[ignore]
 fn words_other_than_themselves_can_be_anagrams() {
     let word = "LISTEN";
     let inputs = &["LISTEN", "Silent"];
@@ -176,7 +161,6 @@ fn words_other_than_themselves_can_be_anagrams() {
 }
 
 #[test]
-#[ignore]
 fn handles_case_of_greek_letters() {
     let word = "ΑΒΓ";
     let inputs = &["ΒΓΑ", "ΒΓΔ", "γβα", "αβγ"];
@@ -186,7 +170,6 @@ fn handles_case_of_greek_letters() {
 }
 
 #[test]
-#[ignore]
 fn different_characters_may_have_the_same_bytes() {
     let word = "a⬂";
     let inputs = &["€a"];

@@ -14,6 +14,14 @@ pub fn frequencies(text: &str) -> Freq {
                                      |freq, c| update_count(c, freq))
 }
 
-pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&str]) -> HashSet<&'a str> {
-    todo!("For the '{word}' word find anagrams among the following words: {possible_anagrams:?}");
+fn is_anagram(target: &str, candidate: &str) -> bool {
+    frequencies(target) == frequencies(candidate) && target.to_lowercase() != candidate.to_lowercase()
+}
+
+pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&'a str]) -> HashSet<&'a str> {
+    possible_anagrams.iter()
+        .filter(|src| is_anagram(word, src))
+        .copied()
+        .collect()
+
 }
