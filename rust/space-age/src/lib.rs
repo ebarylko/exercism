@@ -3,12 +3,13 @@
 
 #[derive(Debug)]
 pub struct Duration {
-    seconds: u64
+    seconds: f64
 }
 
 impl From<u64> for Duration {
-    fn from(seconds: u64) -> Self {
-        Duration{seconds}
+    fn from(time: u64) -> Self {
+        let seconds = time as f64;
+        Duration{ seconds }
     }
 }
 
@@ -20,7 +21,7 @@ const EARTH_YEAR_IN_SECONDS: f64 = 31_557_600.0 ;
 
 /// Takes a duration and returns the number of earth years in that duration
 fn num_of_earth_years(d: &Duration) -> f64 {
-    d.seconds as f64 / EARTH_YEAR_IN_SECONDS
+    d.seconds / EARTH_YEAR_IN_SECONDS
 }
 
 fn num_of_years_wrt_orb_factor(d: &Duration, orb_factor: f64) -> f64 {
