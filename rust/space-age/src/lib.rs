@@ -32,21 +32,25 @@ const MERCURY_ORBITAL_FACTOR: f64 = 0.2408467;
 
 const VENUS_ORBITAL_FACTOR: f64 = 0.61519726;
 
+/// Takes a duration and returns the number of earth years in that duration
+fn num_of_earth_years(d: &Duration) -> f64 {
+    d.seconds as f64 / EARTH_YEAR_IN_SECONDS
+}
+
 impl Planet for Mercury {
     fn years_during(d: &Duration) -> f64 {
-        (d.seconds as f64 / EARTH_YEAR_IN_SECONDS) / MERCURY_ORBITAL_FACTOR
+        num_of_earth_years(d) / MERCURY_ORBITAL_FACTOR
     }
 
 }
 impl Planet for Venus {
     fn years_during(d: &Duration) -> f64 {
-        (d.seconds as f64 / EARTH_YEAR_IN_SECONDS) / VENUS_ORBITAL_FACTOR
+        num_of_earth_years(d) / VENUS_ORBITAL_FACTOR
     }
 }
 impl Planet for Earth {
     fn years_during(d: &Duration) -> f64 {
-        let earth_year_in_seconds: f64 = 31_557_600.0 ;
-        d.seconds as f64 / earth_year_in_seconds
+        num_of_earth_years(d)
     }
 }
 impl Planet for Mars {}
