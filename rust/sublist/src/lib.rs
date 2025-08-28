@@ -7,10 +7,10 @@ pub enum Comparison {
     Unequal,
 }
 
-/// Takes two lists, a, b, where a is smaller than b
-/// and returns Unequal if a is not a proper sublist of b.
+/// Takes two lists, A, B, where A is smaller than B
+/// and returns Unequal if A is not a proper sublist of B.
 /// Returns Sublist otherwise
-fn is_proper_sublist_of(a: &[i32], b: &[i32]) -> Comparison {
+fn sublist_or_unequal(a: &[i32], b: &[i32]) -> Comparison {
     Some(b)
         .map(|coll| coll.windows(a.len()))
         .filter(|coll| coll.clone().any(|sub_list| sub_list == a))
@@ -18,24 +18,23 @@ fn is_proper_sublist_of(a: &[i32], b: &[i32]) -> Comparison {
         .unwrap_or(Comparison::Unequal)
 }
 
-/// Takes two lists, a, b, where a is bigger than b
-/// and returns Unequal if a is not a proper superlist of b.
-/// Returns Superlist otherwise
-fn is_proper_superlist_of(a: &[i32], b: &[i32]) -> Comparison {
-    Some(a)
-        .map(|coll| coll.windows(b.len()))
-        .filter(|coll| coll.clone().any(|sub_list| sub_list == b))
-        .map(|_| Comparison::Superlist)
-        .unwrap_or(Comparison::Unequal)
+fn invert_sublist_decision(decision: Comparison) -> Comparison {
+    match decision {
+        Comparison::Sublist => Comparison::Superlist,
+        _ => decision
+    }
 }
 
+/// Takes two non-empty lists, A, B, and categorizes them as either
+/// A being a proper superlist/sublist of B or A and B not being a proper
+/// sub/superlist of each other
 fn categorize_non_empty_lists(fst: &[i32], snd: &[i32]) -> Comparison {
     match fst == snd {
         true => Comparison::Equal,
         _ => match fst.len().cmp(&snd.len()) {
             Ordering::Equal => Comparison::Unequal,
-            Ordering::Less => is_proper_sublist_of(fst, snd),
-            _ => is_proper_superlist_of(fst, snd)
+            Ordering::Less => sublist_or_unequal(fst, snd),
+            _ => invert_sublist_decision(sublist_or_unequal(snd, fst))
         }
     }
 }
