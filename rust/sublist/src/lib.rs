@@ -7,9 +7,9 @@ pub enum Comparison {
     Unequal,
 }
 
-/// Takes two lists, A, B, where A is smaller than B
-/// and returns Unequal if A is not a proper sublist of B.
-/// Returns Sublist otherwise
+/// Takes two lists, A, B, where A is smaller than B.
+/// Returns Unequal if A is not a proper sublist of B
+///  and returns Sublist otherwise
 fn sublist_or_unequal(a: &[i32], b: &[i32]) -> Comparison {
     Some(b)
         .map(|coll| coll.windows(a.len()))
@@ -17,6 +17,7 @@ fn sublist_or_unequal(a: &[i32], b: &[i32]) -> Comparison {
         .map(|_| Comparison::Sublist)
         .unwrap_or(Comparison::Unequal)
 }
+
 
 fn invert_sublist_decision(decision: Comparison) -> Comparison {
     match decision {
@@ -26,8 +27,7 @@ fn invert_sublist_decision(decision: Comparison) -> Comparison {
 }
 
 /// Takes two non-empty lists, A, B, and categorizes them as either
-/// A being a proper superlist/sublist of B or A and B not being a proper
-/// sub/superlist of each other
+/// A being a proper superlist/sublist of B or A and B not being equal
 fn categorize_non_empty_lists(fst: &[i32], snd: &[i32]) -> Comparison {
     match fst == snd {
         true => Comparison::Equal,
