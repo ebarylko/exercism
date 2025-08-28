@@ -19,7 +19,6 @@ fn empty_list_within_non_empty_list() {
 }
 
 #[test]
-#[ignore]
 fn non_empty_list_contains_empty_list() {
     let list_one: &[i32] = &[1, 2, 3];
     let list_two: &[i32] = &[];
@@ -29,7 +28,6 @@ fn non_empty_list_contains_empty_list() {
 }
 
 #[test]
-#[ignore]
 fn list_equals_itself() {
     let list_one: &[i32] = &[1, 2, 3];
     let list_two: &[i32] = &[1, 2, 3];
@@ -39,7 +37,6 @@ fn list_equals_itself() {
 }
 
 #[test]
-#[ignore]
 fn different_lists() {
     let list_one: &[i32] = &[1, 2, 3];
     let list_two: &[i32] = &[2, 3, 4];
@@ -49,7 +46,6 @@ fn different_lists() {
 }
 
 #[test]
-#[ignore]
 fn false_start() {
     let list_one: &[i32] = &[1, 2, 5];
     let list_two: &[i32] = &[0, 1, 2, 3, 1, 2, 5, 6];
