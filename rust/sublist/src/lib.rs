@@ -18,13 +18,24 @@ fn is_proper_sublist_of(a: &[i32], b: &[i32]) -> Comparison {
         .unwrap_or(Comparison::Unequal)
 }
 
+/// Takes two lists, a, b, where a is bigger than b
+/// and returns Unequal if a is not a proper superlist of b.
+/// Returns Superlist otherwise
+fn is_proper_superlist_of(a: &[i32], b: &[i32]) -> Comparison {
+    Some(a)
+        .map(|coll| coll.windows(b.len()))
+        .filter(|coll| coll.clone().any(|sub_list| sub_list == b))
+        .map(|_| Comparison::Superlist)
+        .unwrap_or(Comparison::Unequal)
+}
+
 fn categorize_non_empty_lists(fst: &[i32], snd: &[i32]) -> Comparison {
     match fst == snd {
         true => Comparison::Equal,
         _ => match fst.len().cmp(&snd.len()) {
             Ordering::Equal => Comparison::Unequal,
             Ordering::Less => is_proper_sublist_of(fst, snd),
-            _ => todo!("Need to implement this")
+            _ => is_proper_superlist_of(fst, snd)
         }
     }
 }
