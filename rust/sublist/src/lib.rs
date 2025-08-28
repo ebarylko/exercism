@@ -11,11 +11,15 @@ pub enum Comparison {
 /// Returns Unequal if A is not a proper sublist of B
 ///  and returns Sublist otherwise
 fn sublist_or_unequal(a: &[i32], b: &[i32]) -> Comparison {
-    Some(b)
-        .map(|coll| coll.windows(a.len()))
-        .filter(|coll| coll.clone().any(|sub_list| sub_list == a))
-        .map(|_| Comparison::Sublist)
-        .unwrap_or(Comparison::Unequal)
+
+    let is_not_a_sublist = |coll1: &[i32], coll2: &[i32]| -> bool {
+        coll2.windows(coll1.len())
+            .filter(|&sublist| sublist == coll1)
+            .collect::<Vec<_>>()
+            .is_empty()
+    };
+
+    if is_not_a_sublist(a, b) {Comparison::Unequal} else {Comparison::Sublist}
 }
 
 
