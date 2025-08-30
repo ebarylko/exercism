@@ -1,5 +1,10 @@
+pub type Coord = (u32, u32);
+
+pub fn gen_all_garden_coords(garden: &[&str]) -> Vec<Coord> {
+    vec![(0, 0)]
+
+}
+
 pub fn annotate(garden: &[&str]) -> Vec<String> {
-    todo!(
-        "\nAnnotate each square of the given garden with the number of flowers that surround said square (blank if there are no surrounding flowers):\n{garden:#?}\n"
-    );
+    vec![]
 }

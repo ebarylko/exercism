@@ -1,4 +1,5 @@
 use flower_field::*;
+use flower_field::Coord;
 
 #[test]
 fn no_rows() {
@@ -9,7 +10,12 @@ fn no_rows() {
 }
 
 #[test]
-#[ignore]
+fn no_valid_coords_for_empty_garden()  {
+    let expected: Vec<Coord> = vec![];
+    assert_eq!(expected, gen_all_garden_coords(&[]));
+}
+
+#[test]
 fn no_columns() {
     let input = &[""];
     let expected = &[""];
