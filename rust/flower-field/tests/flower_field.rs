@@ -22,6 +22,12 @@ fn no_valid_coords_for_garden_with_no_squares()  {
 }
 
 #[test]
+fn garden_with_two_rows_and_columns()  {
+    let expected: Option<Vec<Coord>> = Some(vec![(0, 0), (0, 1), (1, 0), (1, 1)]);
+    assert_eq!(expected, gen_all_garden_coords(&["  ", "  "]));
+}
+
+#[test]
 fn no_columns() {
     let input = &[""];
     let expected = &[""];

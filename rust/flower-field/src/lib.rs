@@ -1,4 +1,5 @@
-pub type Coord = (u32, u32);
+use itertools::iproduct;
+pub type Coord = (usize, usize);
 
 /// Takes a garden and returns a collection of
 /// coordinates in the garden if it is not empty. Returns
@@ -15,7 +16,9 @@ pub fn gen_all_garden_coords(garden: &[&str]) -> Option<Vec<Coord>> {
     Some(garden.len())
         .zip(size_of_row(garden))
         .filter(|row_and_col_lengths| is_not_empty_garden(row_and_col_lengths))
-        .map(|_| vec![(0, 0)])
+        .map(|(num_of_rows, num_of_cols)| iproduct!(0..num_of_cols, 0..num_of_rows))
+        .map(|positions| positions.collect())
+
 }
 
 pub fn annotate(garden: &[&str]) -> Vec<String> {
