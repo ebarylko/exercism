@@ -11,8 +11,14 @@ fn no_rows() {
 
 #[test]
 fn no_valid_coords_for_empty_garden()  {
-    let expected: Vec<Coord> = vec![];
+    let expected: Option<Vec<Coord>> = None;
     assert_eq!(expected, gen_all_garden_coords(&[]));
+}
+
+#[test]
+fn no_valid_coords_for_garden_with_no_squares()  {
+    let expected: Option<Vec<Coord>> = None;
+    assert_eq!(expected, gen_all_garden_coords(&["", ""]));
 }
 
 #[test]
