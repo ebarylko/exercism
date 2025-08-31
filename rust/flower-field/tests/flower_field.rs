@@ -1,5 +1,4 @@
 use flower_field::*;
-use flower_field::Coord;
 
 #[test]
 fn no_rows() {
@@ -11,20 +10,28 @@ fn no_rows() {
 
 #[test]
 fn no_valid_coords_for_empty_garden()  {
-    let expected: Option<Vec<Coord>> = None;
+    let expected: Option<Vec<ValidCoord>> = None;
     assert_eq!(expected, gen_all_garden_coords(&[]));
 }
 
 #[test]
 fn no_valid_coords_for_garden_with_no_squares()  {
-    let expected: Option<Vec<Coord>> = None;
+    let expected: Option<Vec<ValidCoord>> = None;
     assert_eq!(expected, gen_all_garden_coords(&["", ""]));
 }
 
 #[test]
 fn garden_with_two_rows_and_columns()  {
-    let expected: Option<Vec<Coord>> = Some(vec![(0, 0), (0, 1), (1, 0), (1, 1)]);
+    let expected: Option<Vec<ValidCoord>> = Some(vec![(0, 0), (0, 1), (1, 0), (1, 1)]);
     assert_eq!(expected, gen_all_garden_coords(&["  ", "  "]));
+}
+
+#[test]
+fn some_surrounding_squares_not_valid() {
+    let expected = vec![(0, 1), (1, 0), (1, 1)];
+    assert_eq!(expected,
+               gen_coords_of_surrounding_squares(CoordRestriction{row_limit: 1, col_limit: 1},
+                                                 (0, 0)))
 }
 
 #[test]
