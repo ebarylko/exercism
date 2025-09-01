@@ -35,6 +35,14 @@ fn some_surrounding_squares_not_valid() {
 }
 
 #[test]
+fn when_the_original_coord_is_a_flower() {
+    let garden = &["* ", " *"];
+    let expected = '*';
+
+    assert_eq!(expected, num_of_flowers_in_surrounding_squares(garden, &(0, 0), &vec![(0, 1), (1, 0), (1, 1)]));
+}
+
+#[test]
 fn no_columns() {
     let input = &[""];
     let expected = &[""];

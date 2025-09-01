@@ -74,7 +74,19 @@ pub fn gen_coords_of_surrounding_squares(pos_limit: CoordRestriction, (x, y): Va
         .collect()
 }
 
+/// Takes a garden, a coordinate, the surrounding squares, and
+/// returns the number of flowers in the surrounding squares
+/// if the original coordinate is not a flower. Otherwise, it returns '*'
+pub fn num_of_flowers_in_surrounding_squares(garden: &[&str], orig_coord: &ValidCoord, surrounding_squares: &Vec<ValidCoord>) -> char {
+    todo!("Implement this")
+    // Some(orig_coord)
+    //     .filter(|&coord| is_not_flower(coord))
+}
+
 pub fn annotate(garden: &[&str]) -> Vec<String> {
+    // gen_all_garden_coords(garden)
+    //     .map(|coords| coords.iter().map(|coord| (coord, gen_coords_of_surrounding_squares(coord))))
+    //     .map(|(orig_coord, surrounding_squares)| num_of_flowers_in_surrounding_squares(garden, orig_coord, surrounding_squares))
     vec![]
     // gen_all_garden_coords(garden).unwrap_or()
 }
