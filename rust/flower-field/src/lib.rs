@@ -1,24 +1,24 @@
-use itertools::iproduct;
+use itertools::{iproduct};
 pub type ValidCoord = (usize, usize);
+
+
+/// Takes a garden and returns its dimensions
+fn get_garden_size(garden: &[&str]) -> (usize, usize) {
+    (garden.len(), garden.get(0).map(|row| row.len()).unwrap_or(0))
+}
 
 /// Takes a garden and returns a collection of
 /// coordinates in the garden if it is not empty. Returns
 /// None otherwise
 pub fn gen_all_garden_coords(garden: &[&str]) -> Option<Vec<ValidCoord>> {
-    let size_of_row = |gard: &[&str]| -> Option<usize>  {
-        gard.get(0).map(|row| row.len())
-    };
-
     let is_not_empty_garden = |&(x, y): &(usize, usize)| -> bool {
         x != 0 && y != 0
     };
 
-    Some(garden.len())
-        .zip(size_of_row(garden))
+    Some(get_garden_size(garden))
         .filter(|row_and_col_lengths| is_not_empty_garden(row_and_col_lengths))
-        .map(|(num_of_rows, num_of_cols)| iproduct!(0..num_of_cols, 0..num_of_rows))
+        .map(|(num_of_rows, num_of_cols)| iproduct!(0..num_of_rows, 0..num_of_cols))
         .map(|positions| positions.collect())
-
 }
 
 fn is_non_negative(num: i32) -> bool {
@@ -65,7 +65,7 @@ impl TryFrom<IntermediateCoordConversionAttempt> for ValidCoord {
 
 /// Takes a restriction on what coordinates are valid, a position, and
 /// returns the valid surrounding coordinates
-pub fn gen_coords_of_surrounding_squares(pos_limit: CoordRestriction, (x, y): ValidCoord) -> Vec<ValidCoord> {
+pub fn gen_coords_of_surrounding_squares(pos_limit: CoordRestriction, &(x, y): &ValidCoord) -> Vec<ValidCoord> {
     let (tmp_x, tmp_y): PossibleCoord = (x as i32, y as i32);
     iproduct!(-1..2, -1..2)
         .filter(|&(x, y)| x != 0 || y != 0)
@@ -76,7 +76,9 @@ pub fn gen_coords_of_surrounding_squares(pos_limit: CoordRestriction, (x, y): Va
 
 /// Takes a garden, a coordinate, the surrounding squares, and
 /// returns the number of flowers in the surrounding squares
-/// if the original coordinate is not a flower. Otherwise, it returns '*'
+/// if the original coordinate is not a flower and there are one
+/// or more flowers in the surrounding squares. Otherwise, it returns
+/// the content of the original coordinate
 pub fn num_of_flowers_in_surrounding_squares(garden: &[&str], orig_coord: &ValidCoord, surrounding_squares: &Vec<ValidCoord>) -> char {
     let get_square_content = |&(row, col): &ValidCoord, garden: &[&str]| -> char {
         garden.get(row).and_then(|row| row.chars().nth(col)).unwrap()
@@ -97,14 +99,26 @@ pub fn num_of_flowers_in_surrounding_squares(garden: &[&str], orig_coord: &Valid
             .chars()
             .nth(0)
             .unwrap())
-        .unwrap_or('*')
+        .map_or('*', |num: char| if num == '0' {' '} else {num})
 
 }
 
+impl From<(usize, usize)> for CoordRestriction {
+    fn from((num_of_rows, num_of_cols): (usize, usize)) -> Self {
+        CoordRestriction { row_limit: num_of_rows - 1, col_limit: num_of_cols - 1 }
+    }
+}
+
 pub fn annotate(garden: &[&str]) -> Vec<String> {
-    // gen_all_garden_coords(garden)
-    //     .map(|coords| coords.iter().map(|coord| (coord, gen_coords_of_surrounding_squares(coord))))
-    //     .map(|(orig_coord, surrounding_squares)| num_of_flowers_in_surrounding_squares(garden, orig_coord, surrounding_squares))
-    vec![]
-    // gen_all_garden_coords(garden).unwrap_or()
+    let (num_of_rows, num_of_cols)  = get_garden_size(garden);
+    gen_all_garden_coords(garden)
+        .map(|coords| coords
+            .iter()
+            .map(|coord| (coord, gen_coords_of_surrounding_squares(CoordRestriction::from((num_of_rows, num_of_cols)), coord)))
+            .map(|(orig_coord, surrounding_squares)| num_of_flowers_in_surrounding_squares(garden, orig_coord, &surrounding_squares))
+            .collect::<Vec<_>>()
+            .chunks(num_of_cols)
+            .map(|chunk| chunk.iter().collect::<String>())
+            .collect())
+        .unwrap_or(garden.iter().map(|row| row.to_string()).collect())
 }
