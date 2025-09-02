@@ -4,7 +4,7 @@ pub type ValidCoord = (usize, usize);
 
 /// Takes a garden and returns its dimensions
 fn get_garden_size(garden: &[&str]) -> (usize, usize) {
-    (garden.len(), garden.get(0).map(|row| row.len()).unwrap_or(0))
+    (garden.len(), garden.first().map(|row| row.len()).unwrap_or(0))
 }
 
 /// Takes a garden and returns a collection of
@@ -16,7 +16,7 @@ pub fn gen_all_garden_coords(garden: &[&str]) -> Option<Vec<ValidCoord>> {
     };
 
     Some(get_garden_size(garden))
-        .filter(|row_and_col_lengths| is_not_empty_garden(row_and_col_lengths))
+        .filter(is_not_empty_garden)
         .map(|(num_of_rows, num_of_cols)| iproduct!(0..num_of_rows, 0..num_of_cols))
         .map(|positions| positions.collect())
 }
@@ -79,7 +79,7 @@ pub fn gen_coords_of_surrounding_squares(pos_limit: CoordRestriction, &(x, y): &
 /// if the original coordinate is not a flower and there are one
 /// or more flowers in the surrounding squares. Otherwise, it returns
 /// the content of the original coordinate
-pub fn num_of_flowers_in_surrounding_squares(garden: &[&str], orig_coord: &ValidCoord, surrounding_squares: &Vec<ValidCoord>) -> char {
+pub fn num_of_flowers_in_surrounding_squares(garden: &[&str], orig_coord: &ValidCoord, surrounding_squares: &[ValidCoord]) -> char {
     let get_square_content = |&(row, col): &ValidCoord, garden: &[&str]| -> char {
         garden.get(row).and_then(|row| row.chars().nth(col)).unwrap()
     };
@@ -97,7 +97,7 @@ pub fn num_of_flowers_in_surrounding_squares(garden: &[&str], orig_coord: &Valid
             .count()
             .to_string()
             .chars()
-            .nth(0)
+            .next()
             .unwrap())
         .map_or('*', |num: char| if num == '0' {' '} else {num})
 
