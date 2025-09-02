@@ -11,19 +11,19 @@ fn no_rows() {
 #[test]
 fn no_valid_coords_for_empty_garden()  {
     let expected: Option<Vec<ValidCoord>> = None;
-    assert_eq!(expected, gen_all_garden_coords(&[]));
+    assert_eq!(expected, gen_all_square_locs(&[]));
 }
 
 #[test]
 fn no_valid_coords_for_garden_with_no_squares()  {
     let expected: Option<Vec<ValidCoord>> = None;
-    assert_eq!(expected, gen_all_garden_coords(&["", ""]));
+    assert_eq!(expected, gen_all_square_locs(&["", ""]));
 }
 
 #[test]
 fn garden_with_two_rows_and_columns()  {
     let expected: Option<Vec<ValidCoord>> = Some(vec![(0, 0), (0, 1), (1, 0), (1, 1)]);
-    assert_eq!(expected, gen_all_garden_coords(&["  ", "  "]));
+    assert_eq!(expected, gen_all_square_locs(&["  ", "  "]));
 }
 
 #[test]

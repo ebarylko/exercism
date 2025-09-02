@@ -7,10 +7,10 @@ fn get_garden_size(garden: &[&str]) -> (usize, usize) {
     (garden.len(), garden.first().map(|row| row.len()).unwrap_or(0))
 }
 
-/// Takes a garden and returns a collection of
-/// coordinates in the garden if it is not empty. Returns
+/// Takes a garden and returns the positions of each
+/// square in the garden if it is not empty. Returns
 /// None otherwise
-pub fn gen_all_garden_coords(garden: &[&str]) -> Option<Vec<ValidCoord>> {
+pub fn gen_all_square_locs(garden: &[&str]) -> Option<Vec<ValidCoord>> {
     let is_not_empty_garden = |&(x, y): &(usize, usize)| -> bool {
         x != 0 && y != 0
     };
@@ -37,16 +37,15 @@ pub struct CoordRestriction {
     pub col_limit: usize,
 }
 
-/// Takes a position, a bound on the size of the
-/// position and returns true if the position is
-/// in the range [0, pos_limit]
+/// Takes a position in the garden, a bound on which
+/// positions are valid, and returns true if the position
+/// complies with the bound
 fn is_valid_pos(pos: i32, pos_limit: usize) -> bool {
     is_non_negative(pos) && (0..=pos_limit).contains(&(pos as usize))
-
 }
 
 // This data type represents the state of position prior
-// to converting it to a ValidCoord if possible given the current restriction of coord_limit
+// to converting it to a ValidCoord if possible given the current restriction of coord_limits
 struct IntermediateCoordConversionAttempt {
     coord_limits: CoordRestriction,
     position: PossibleCoord
@@ -63,13 +62,16 @@ impl TryFrom<IntermediateCoordConversionAttempt> for ValidCoord {
     }
 }
 
-/// Takes a restriction on what coordinates are valid, a position, and
-/// returns the valid surrounding coordinates
+const COORD_OFFSETS: [PossibleCoord; 8] = [(-1, -1), (-1, 0), (-1, 1), (0, -1),
+    (0, 1), (1, -1),  (1, 0),  (1, 1)];
+
+/// Takes a restriction on what coordinates are valid, a position in the garden,
+/// and returns the valid surrounding coordinates
 pub fn gen_coords_of_surrounding_squares(pos_limit: CoordRestriction, &(x, y): &ValidCoord) -> Vec<ValidCoord> {
-    let (tmp_x, tmp_y): PossibleCoord = (x as i32, y as i32);
-    iproduct!(-1..2, -1..2)
-        .filter(|&(x, y)| x != 0 || y != 0)
-        .map(|(row_shift, col_shift)| (tmp_x + row_shift, tmp_y + col_shift))
+    let (row_pos, col_pos): PossibleCoord = (x as i32, y as i32);
+    COORD_OFFSETS
+        .iter()
+        .map(|&(row_shift, col_shift)| (row_pos + row_shift, col_pos + col_shift))
         .filter_map(|coord: PossibleCoord| ValidCoord::try_from(IntermediateCoordConversionAttempt {position: coord, coord_limits: pos_limit}).ok())
         .collect()
 }
@@ -111,7 +113,7 @@ impl From<(usize, usize)> for CoordRestriction {
 
 pub fn annotate(garden: &[&str]) -> Vec<String> {
     let (num_of_rows, num_of_cols)  = get_garden_size(garden);
-    gen_all_garden_coords(garden)
+    gen_all_square_locs(garden)
         .map(|coords| coords
             .iter()
             .map(|coord| (coord, gen_coords_of_surrounding_squares(CoordRestriction::from((num_of_rows, num_of_cols)), coord)))
